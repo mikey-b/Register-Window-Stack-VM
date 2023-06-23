@@ -1,6 +1,8 @@
 // https://godbolt.org/z/696q46WEh
 
 #include <cassert>
+#include <cstdio>
+#include <cstddef>
 
 enum ins: char {
     PUSH,
@@ -33,10 +35,157 @@ struct vm {
 
     vm(char *pcode): sp(&datastack[0]), pc(pcode), fp(&callstack[0]), code(pcode) { }
 
+    int run_specialsedtableless4() {
+        int r0, r1, r2, r3;
+#define PADDING 96
+#define NEXT(N) goto *(uintptr_t(&&_BASE) + 64 + (((unsigned char)*pc++) * 5 * PADDING) + (PADDING * N) ); 
+//#define FLUSH4_0 *sp++ = r0; *sp++ = r1; *sp++ = r2; *sp++ = r3;
+#define FLUSH4_1 *sp++ = r0; r0 = r3; *sp++ = r1; *sp++ = r2;
+//#define FLUSH4_2 *sp++ = r0; r0 = r3; *sp++ = r1; r1 = r2;
+
+
+
+		/*   PUSH,     ADD,     SUB,     ROT,     DUP,     DROP,     CALL1,     IFNEQ,     RET1,     HALT, */
+        //0-9
+        //0-4
+
+        //printf("%p\n", &&PUSH0);
+        //printf("%p\n", &&PUSH1);
+        //ptrdiff_t x = uintptr_t(&&PUSH1) - uintptr_t(&&PUSH0);.
+    
+        printf("PUSH %lld\n", (uintptr_t(&&PUSH0) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&PUSH1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&PUSH2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&PUSH3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&PUSH4) - uintptr_t(&&_BASE) ) );
+
+        printf("ADD %lld\n", (uintptr_t(&&ADD0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ADD1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ADD2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ADD3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ADD4) - uintptr_t(&&_BASE) ) );
+
+        printf("SUB %lld\n", (uintptr_t(&&SUB0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&SUB1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&SUB2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&SUB3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&SUB4) - uintptr_t(&&_BASE) ) );
+
+        printf("ROT %lld\n", (uintptr_t(&&ROT0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ROT1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ROT2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ROT3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&ROT4) - uintptr_t(&&_BASE) ) );
+
+        printf("DUP %lld\n",(uintptr_t(&&DUP0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DUP1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DUP2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DUP3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DUP4) - uintptr_t(&&_BASE) ) );
+
+        printf("DROP %lld\n", (uintptr_t(&&DROP0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DROP1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DROP2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DROP3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&DROP4) - uintptr_t(&&_BASE) ) );
+
+        printf("CALL %lld\n", (uintptr_t(&&CALL10) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&CALL11) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&CALL12) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&CALL13) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&CALL14) - uintptr_t(&&_BASE) ) );
+
+        printf("IFN %lld\n", (uintptr_t(&&IFNEQ0) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&IFNEQ1) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&IFNEQ2) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&IFNEQ3) - uintptr_t(&&_BASE) ) );
+        printf("%lld\n", (uintptr_t(&&IFNEQ4) - uintptr_t(&&_BASE) ) );
+
+        printf("RET %lld\n", (uintptr_t(&&RET10) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&RET11) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&RET12) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&RET13) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&RET14) - uintptr_t(&&_BASE)) );
+
+        printf("HALT %lld\n", (uintptr_t(&&HALT0) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&HALT1) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&HALT2) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&HALT3) - uintptr_t(&&_BASE)) );
+        printf("%lld\n", (uintptr_t(&&HALT4) - uintptr_t(&&_BASE)) );
+
+        printf("---\n");
+        
+        NEXT(0);
+        __asm__ volatile(".p2align 6"); _BASE: 
+
+        PUSH0: { r0 = *pc++; __asm__ volatile(".p2align 5"); NEXT(1); }
+        PUSH1: { r1 = *pc++; __asm__ volatile(".p2align 5"); NEXT(2); }
+        PUSH2: { r2 = *pc++; __asm__ volatile(".p2align 5"); NEXT(3); }
+		PUSH3: { r3 = *pc++; __asm__ volatile(".p2align 5"); NEXT(4); }
+        PUSH4: { FLUSH4_1; r0 = *pc++; NEXT(2); }        
+
+        ADD0: { auto r = *(sp - 2) + *(sp - 1); sp -= 2; r0 = r; __asm__ volatile(".p2align 6"); NEXT(1); }
+        ADD1: { auto r = *(sp - 1) + r0;        sp -= 1; r0 = r; __asm__ volatile(".p2align 5"); NEXT(1); }
+        ADD2: { r0 = r0 + r1; __asm__ volatile(".p2align 6"); NEXT(1); }
+        ADD3: { r1 = r1 + r2; __asm__ volatile(".p2align 5"); NEXT(2); }		
+		ADD4: { r2 = r2 + r3; __asm__ volatile(".p2align 5"); NEXT(3); }
+
+        SUB0: { r0 = *(sp - 1); __asm__ volatile(".p2align 6"); sp -= 1; }
+        SUB1: { r0 = *(sp - 1) - r0; sp -= 1; __asm__ volatile(".p2align 6"); NEXT(1); }
+        SUB2: { r0 = r0 - r1; __asm__ volatile(".p2align 5"); NEXT(1); }
+        SUB3: { r1 = r1 - r2; __asm__ volatile(".p2align 5"); NEXT(2); }
+		SUB4: { r2 = r2 - r3; __asm__ volatile(".p2align 5"); NEXT(3); }
+
+        ROT0: { auto t = *(sp - 2); *(sp - 2) = *(sp - 1); *(sp - 1) = t; __asm__ volatile(".p2align 5"); NEXT(0); }
+        ROT1: { auto t = *(sp - 1); *(sp - 1) = r0; r0 = t;              __asm__ volatile(".p2align 5"); NEXT(1); }
+        ROT2: { auto t = r0; r0 = r1; r1 = t; __asm__ volatile(".p2align 7"); NEXT(2); }
+        ROT3: { auto t = r1; r1 = r2; r2 = t; __asm__ volatile(".p2align 6"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");  NEXT(3); }
+        ROT4: { auto t = r2; r2 = r3; r3 = t; __asm__ volatile(".p2align 6"); NEXT(4); }        
+
+        DUP0:  { r0 = *(sp - 1); __asm__ volatile(".p2align 5"); NEXT(1); }
+        DUP1:  { r1 = r0;        __asm__ volatile(".p2align 7"); NEXT(2); }
+        DUP2:  { r2 = r1;        __asm__ volatile(".p2align 6"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); NEXT(3); }
+		DUP3:  { r3 = r2;        __asm__ volatile(".p2align 6"); NEXT(4); }
+        DUP4:  { FLUSH4_1; *sp++ = r0; NEXT(1); } // Special Case: lets just flush 3, keeping the top in a reg, then push a copy onto the stack.
+
+        DROP0: { __asm__ volatile(".p2align 6"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); sp -= 1; }
+        DROP1: {          __asm__ volatile(".p2align 6");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");NEXT(0); }
+        DROP2: {          __asm__ volatile(".p2align 6"); NEXT(1); }
+        DROP3: {          __asm__ volatile(".p2align 6"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");NEXT(2); }		
+		DROP4: {          __asm__ volatile(".p2align 6"); NEXT(3); }
+		
+        CALL10: { *fp++ = ((pc+1) - code); pc = code + *pc; NEXT(0); }
+        CALL11: { *fp++ = ((pc+1) - code); pc = code + *pc; NEXT(1); }
+        CALL12: { *fp++ = ((pc+1) - code); pc = code + *pc; NEXT(2); }
+        CALL13: { *fp++ = ((pc+1) - code); pc = code + *pc; NEXT(3); }
+        CALL14: { *fp++ = ((pc+1) - code); pc = code + *pc; NEXT(4); }
+
+        IFNEQ0: { auto jmpt = *pc++; auto r = *(sp - 1) != *(sp - 2);  sp -= 2; if (r) pc += jmpt; NEXT(0); }
+        IFNEQ1: { auto jmpt = *pc++; auto r = r0 != *(sp - 1);         sp -= 1; if (r) pc += jmpt; NEXT(0); }
+        IFNEQ2: { __asm__ volatile(".p2align 6"); auto jmpt = *pc++; auto r = r1 != r0;					        if (r) pc += jmpt; NEXT(0); }
+        IFNEQ3: {  __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); auto jmpt = *pc++; auto r = r2 != r1;					        if (r) pc += jmpt;  NEXT(1); }
+        IFNEQ4: { __asm__ volatile(".p2align 6"); auto jmpt = *pc++; auto r = r3 != r2; if (r) pc += jmpt; NEXT(2); }
+
+        RET10:  { auto r = *(fp - 1); fp -= 1; pc = code + r; __asm__ volatile(".p2align 4"); NEXT(0); }
+        RET11:  { auto r = *(fp - 1); fp -= 1; pc = code + r; __asm__ volatile(".p2align 4"); NEXT(1); }
+        RET12:  { auto r = *(fp - 1); fp -= 1; pc = code + r; __asm__ volatile(".p2align 4"); NEXT(2); }
+        RET13:  { auto r = *(fp - 1); fp -= 1; pc = code + r; __asm__ volatile(".p2align 4"); NEXT(3); }
+        RET14:  { auto r = *(fp - 1); fp -= 1; pc = code + r; __asm__ volatile(".p2align 4"); NEXT(4); }
+		
+        HALT0: { __asm__ volatile(".p2align 7"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); return *(sp - 1); }
+        HALT1: { __asm__ volatile(".p2align 7"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop");__asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); return r0; }
+        HALT2: { __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); return r1; }
+        HALT3: { __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); __asm__ volatile("nop"); return r2; }
+        HALT4: { return r3; }	
+		
+        return 0;
+    }
+
     int run_specialsedtable4() {
 
         int r0, r1, r2, r3;
                     
+#undef  NEXT
 // printf("[ "); for(auto i = &datastack[0]; i < sp; ++i) { printf("%d,", *i); }; printf("] - ");
 #define NEXT(N) goto *jmp##N[(unsigned char)*pc++]
 
@@ -71,11 +220,16 @@ struct vm {
 
         NEXT(0);
 
-        SUB0: { auto r = *(sp - 2) - *(sp - 1); sp -= 2; r0 = r; NEXT(1); }
-        SUB1: { auto r = *(sp - 1) - r0;        sp -= 1; r0 = r; NEXT(1); }
+
+        SUB0: { r0 = *(sp - 1); sp -= 1; }
+        SUB1: { r0 = *(sp - 1) - r0; sp -= 1; NEXT(1); }
+
+        //SUB0: { auto r = *(sp - 2) - *(sp - 1); sp -= 2; r0 = r; NEXT(1); }
+        //SUB1: { auto r = *(sp - 1) - r0;        sp -= 1; r0 = r; NEXT(1); }
         SUB2: { r0 = r0 - r1; NEXT(1); }
         SUB3: { r1 = r1 - r2; NEXT(2); }
 		SUB4: { r2 = r2 - r3; NEXT(3); }
+
 
         ADD0: { auto r = *(sp - 2) + *(sp - 1); sp -= 2; r0 = r; NEXT(1); }
         ADD1: { auto r = *(sp - 1) + r0;        sp -= 1; r0 = r; NEXT(1); }
@@ -197,7 +351,7 @@ struct vm {
         ADD7: { r5 = r5 + r6; NEXT(6); }		
 		ADD8: { r6 = r6 + r7; NEXT(7); }
 
-        DROP0: { sp -= 1; NEXT(0); }
+        DROP0: { sp -= 1; }
         DROP1: {          NEXT(0); }
         DROP2: {          NEXT(1); }
         DROP3: {          NEXT(2); }
